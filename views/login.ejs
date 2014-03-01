@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <link rel='stylesheet' href='/stylesheets/login.css'/>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-46086367-3', 'fullhousedev.com');
+        ga('send', 'pageview');
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+    <form class="form-signin" role="form" action="/login" method="post">
+        <h2 class="form-signin-heading">Please sign in</h2>
+
+        <h3 class="form-signin-heading" style="color: #FF0000"><%= login_error %></h3>
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+        <label class="checkbox">
+            <input type="checkbox" value="remember-me" name="remember"> Remember me
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+    <br/>
+
+    <p style="font-size: 16px" class="form-signin"><a href="/register">Register here</a></p>
+
+</div>
+<!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>(Unofficial) ItsJerryAndHarry Chatbox</title>
+    <link rel='stylesheet' href='/stylesheets/box.css'/>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/chat.js"></script>
+</head>
+<body>
+<div id="online">
+    <h2>Users Online: </h2>
+    <ul id="allusers">
+        <%
+        online.forEach(function(reply, i) { %>
+        <li><%= reply %></li>
+        <% }); %>
+    </ul>
+</div>
+<div id="chatbox">
+    <div id="messages">
+
+    </div>
+    <div id="sending_bar">
+        <input type="text" id="message_box">
+        <button id="send">Send message</button>
+    </div>
+</div>
+</body>
+</html>
