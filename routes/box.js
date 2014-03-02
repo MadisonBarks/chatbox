@@ -2,7 +2,8 @@
  * Created by austin on 2/28/14.
  */
 exports.index = function (req, res) {
-    if (req.session == null || req.session.authenticated == null || !req.session.authenticated) {
+    if (req.session == null || req.session.authenticated == null 
+    		|| !req.session.authenticated) {
         res.redirect('/login');
         return;
     }
@@ -14,6 +15,6 @@ exports.index = function (req, res) {
     var client = redis.createClient();
 
     client.smembers("online", function (err, onlineMembers) {
-        res.render('box', {online: onlineMembers});
+        res.render('box', {username: req.session.username, online: onlineMembers});
     });
 };

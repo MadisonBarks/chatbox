@@ -2,10 +2,25 @@
  * Created by austin on 2/28/14.
  */
 exports.get = function (req, res) {
-    res.render('register', {login_error: ''});
+	if((typeof req.session === 'undefined')) {
+		console.log("session = undefined");
+		res.render('register', {
+			login_error : ''
+		});
+		return;
+	} 
+	if(req.session !== null 
+			&& req.session.authenticated !== null 
+			&& req.session.authenticated) {
+		res.redirect('box');
+	}
+	res.render('register', {login_error: ''});
 };
 exports.post = function (req, res) {
-    if (req.body.username == "" || req.body.password == ""
+    if(typeof req.session === 'undefined') {
+    	console.log("session - undefined");
+    }
+	if (req.body.username == "" || req.body.password == ""
         || req.body.username == null || req.body.password == null) {
         res.render('register', {login_error: 'You did not fill out all the fields'});
         return;
@@ -15,6 +30,7 @@ exports.post = function (req, res) {
 
     var username = req.body.username;
     var password = req.body.password;
+    var request = req;
 
     client.get("user:" + username + ":password", function (err, reply) {
         if (!(reply == "" || reply == null)) {
@@ -29,11 +45,12 @@ exports.post = function (req, res) {
             client.set("user:" + username + ":permissions", "6", function (err, reply) {
                 //Nothing here. It's just going to be "OK".
             });
+            request.session.authenticated = true;
+            request.session.username = username;
+            request.session.permlevel = 6;
+            console.log("Redirecting to the chatbox.");
+            res.redirect('/box');
         });
-        req.session.authenticated = true;
-        req.session.username = username;
-        req.session.permlevel = 6;
-        console.log("Redirecting to the chatbox.");
-        res.redirect('/box');
+        
     });
 };

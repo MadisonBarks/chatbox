@@ -73,9 +73,14 @@ http.createServer(app).listen(app.get('port'), function () {
 //==================================================================
 
 var socketIO = new sio(donotuse, redisStore, cookieParser);
+//var socketIO = donotuse;
 
 var redis = require('redis');
 var client = redis.createClient();
+
+//Delete ALL previous "online" users.
+client.del("online", function(err, reply) {});
+
 
 socketIO.on('connection', function (err, socket, session) {
     if (session.authenticated == null || !session.authenticated) {
@@ -90,10 +95,11 @@ socketIO.on('connection', function (err, socket, session) {
     socket.set('permLevel', session.permlevel);
     socket.on('chatmessage', function (msg) {
         socket.broadcast.emit('chatmessage', session.username, msg);
+        console.log("Chat message received from " + session.username);
     });
     socket.on('disconnect', function () {
         socket.broadcast.emit('userdisconnect', session.username);
-        client.srem('online', session.username, function () {
+        client.srem('online', session.username, function (err,reply) {
         });
     });
 });
