@@ -1,7 +1,7 @@
 /**
  * Created by austin on 2/28/14.
  */
-var socket = io.connect('http://chatbox.fullhousedev.com:4000');
+var socket = io.connect('http://chatbox.fullhousedev.com');
 socket.on("chatmessage", function (user, msg) {
 	console.log("Chat message from user " + user + " saying " + msg);
     $('#messages').append(user + ": " + msg);

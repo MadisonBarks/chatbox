@@ -22,6 +22,8 @@ exports.get = function(req, res) {
 exports.post = function(req, res) {
 	if(typeof req.session === 'undefined') {
     	console.log("session - undefined");
+    	res.status(500).render('errors/500', {error_info: 'Session was undefined in login'});
+    	return;
     }
 	if (req.body.username == "" || req.body.password == ""
 			|| req.body.username == null || req.body.password == null) {

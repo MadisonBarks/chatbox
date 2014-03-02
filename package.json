@@ -6,12 +6,10 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "express": "3.4.8",
-        "ejs": "*",
+        "express.io": "*",
+    	"ejs": "*",
         "redis": "*",
-        "socket.io": "*",
         "bcrypt-nodejs": "*",
-        "session.socket.io": "*",
         "connect-redis": "1.4.x",
         "string": "*"
     }

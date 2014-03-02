@@ -2,25 +2,13 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var routes = require('./routes');
+var express = require('express.io');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var box = require('./routes/box');
-var http = require('http');
 var path = require('path');
-var io = require("socket.io");
-var sio = require("session.socket.io");
 
-var app = express();
-
-var server = http.createServer(app);
-
-var donotuse = io.listen(server);
-donotuse.set('log level', 3);
-//donotuse.set("origins", "chatbox.fullhousedev.com:*");
-
-server.listen(4000);
+var app = express().http().io();
 
 var RedisStore = require("connect-redis")(express);
 
@@ -34,9 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 
-var cookieParser = express.cookieParser();
-
-app.use(cookieParser);
+app.use(express.cookieParser());
 
 var redisStore = new RedisStore({
     host: 'localhost',
@@ -64,16 +50,10 @@ app.get('/box', box.index);
 app.get('/register', register.get);
 app.post('/register', register.post);
 
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
-});
-
+app.listen(80);
 //==================================================================
 //======================BELOW IS SOCKET ONLY========================
 //==================================================================
-
-var socketIO = new sio(donotuse, redisStore, cookieParser);
-//var socketIO = donotuse;
 
 var redis = require('redis');
 var client = redis.createClient();
@@ -81,7 +61,15 @@ var client = redis.createClient();
 //Delete ALL previous "online" users.
 client.del("online", function(err, reply) {});
 
+app.io.route('chatmessage', function(req) {
+	if(req.session.authenticated === null) {
+		req.io.disconnect();
+		return;
+	}
+	req.io.broadcast('chatmessage', req.session.username, data.msg);
+});
 
+/*
 socketIO.on('connection', function (err, socket, session) {
     if (session.authenticated == null || !session.authenticated) {
         socket.disconnect();
@@ -103,3 +91,4 @@ socketIO.on('connection', function (err, socket, session) {
         });
     });
 });
+*/
