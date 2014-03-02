@@ -15,5 +15,5 @@ exports.index = function (req, res) {
 
     client.smembers("online", function (err, onlineMembers) {
         res.render('box', {online: onlineMembers});
-    })
-}
+    });
+};

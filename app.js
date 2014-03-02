@@ -4,7 +4,6 @@
 
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
 var login = require('./routes/login');
 var register = require('./routes/register');
 var box = require('./routes/box');
@@ -59,7 +58,6 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
 app.get('/login', login.get);
 app.post('/login', login.post);
 app.get('/box', box.index);
@@ -96,5 +94,5 @@ socketIO.on('connection', function (err, socket, session) {
         socket.broadcast.emit('userdisconnect', session.username);
         client.srem('online', session.username, function () {
         });
-    })
+    });
 });

@@ -11,7 +11,6 @@ exports.post = function (req, res) {
         return;
     }
     var redis = require('redis');
-    var bcrypt = require('bcrypt-nodejs');
     var client = redis.createClient();
 
     var username = req.body.username;

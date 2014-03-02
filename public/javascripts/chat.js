@@ -14,6 +14,7 @@ socket.on("userconnect", function (user) {
 $(document).ready(function () {
     $('#send').click(function () {
         var msg = $('#message_box').val();
+        $('#message_box').val("");
         $('#messages').append("Me: " + msg);
         socket.emit("chatmessage", msg);
     });
