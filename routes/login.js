@@ -5,12 +5,11 @@
 exports.get = function(req, res) {
 	if(req.session !== null && req.session.authenticated !== null 
 			&& req.session.authenticated) {
-		res.redirect('login');
+		res.redirect('box');
 	}
 	res.render('login', {
 		login_error : ''
 	});
-	console.log(req.session);
 };
 exports.post = function(req, res) {
 	if (req.body.username == "" || req.body.password == ""

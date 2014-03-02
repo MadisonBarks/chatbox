@@ -20,12 +20,12 @@ var donotuse = io.listen(server);
 donotuse.set('log level', 3);
 //donotuse.set("origins", "chatbox.fullhousedev.com:*");
 
-server.listen(8081);
+server.listen(4000);
 
 var RedisStore = require("connect-redis")(express);
 
 // all environments
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 80);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 
-var cookieParser = express.cookieParser()
+var cookieParser = express.cookieParser();
 
 app.use(cookieParser);
 
@@ -57,7 +57,7 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
+app.get('/', login.get);
 app.get('/login', login.get);
 app.post('/login', login.post);
 app.get('/box', box.index);
@@ -82,6 +82,7 @@ socketIO.on('connection', function (err, socket, session) {
         socket.disconnect();
     }
     socket.broadcast.emit('userconnect', session.username);
+    console.log("User connected: " + session.username);
     client.sadd('online', session.username, function () {
     });
     //The user is authenticated. We're clear to proceed.
