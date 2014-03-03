@@ -66,7 +66,7 @@ app.io.route('chatmessage', function(req) {
 		req.io.disconnect();
 		return;
 	}
-	req.io.broadcast('chatmessage', req.session.username, data.msg);
+	req.io.broadcast('chatmessage', req.session.username, req.data.msg);
 });
 
 /*

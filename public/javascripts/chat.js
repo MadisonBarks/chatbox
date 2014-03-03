@@ -19,6 +19,6 @@ $(document).ready(function () {
         var msg = $('#message_box').val();
         $('#message_box').val("");
         $('#messages').append("Me: " + msg);
-        socket.emit("chatmessage", msg);
+        socket.emit("chatmessage", {'msg': msg});
     });
 });
